@@ -7,9 +7,11 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const outputDir = 'compiled';
 
 module.exports = {
+	// 入口
 	entry: {
+		// 单一入口
 		app_v7: ['babel-polyfill' , './source/app.js']
-	} , 
+	} ,
 	plugins: [
 		new CleanWebpackPlugin([outputDir]),
 		new HtmlWebpackPlugin({
@@ -29,10 +31,20 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.js/ , 
+				test: /\.js/ ,
+				// 如果不排除 node_modules，babel 编译速度将会非常慢
 				exclude: /node_modules/ , 
 				use: {
 					loader: 'babel-loader' ,
+					options: {
+                        "presets": ["@babel/preset-env"] ,
+                        plugins: [
+                        	// 提升运行速度 详情请查看 https://webpack.js.org/loaders/babel-loader/#root
+                        	'@babel/plugin-transform-runtime' ,
+							// 支持动态导入语法
+							'@babel/plugin-syntax-dynamic-import' ,
+						]
+					}
 				}
 			} , 
 			{
@@ -42,9 +54,9 @@ module.exports = {
 					// 'vue-style-loader' ,
 					{
 						loader: 'css-loader' , 
-							options: {
-								sourceMap: true
-							}
+						options: {
+							sourceMap: true
+						}
 					}
 				]
 			} , 
@@ -82,8 +94,6 @@ module.exports = {
 			'vue': 'vue/dist/vue.esm.js' , 
 			'vue-router': 'vue-router/dist/vue-router.esm.js' , 
 			'vuex': 'vuex/dist/vuex.esm.js' ,
-			'iview.js': 'iview/dist/iview.js' ,
-			'iview.css': 'iview/dist/styles/iview.css' ,
 
 			// 目录别名
             // asset: path.resolve(__dirname , './source/asset') ,

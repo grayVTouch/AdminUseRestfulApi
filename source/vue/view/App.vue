@@ -9,7 +9,13 @@
         mounted () {
             topContext.ins.loading = new Loading(this.$refs.loading.$el , {
                 status: 'hide' ,
-                type: 'line-scale'
+                type: 'line-scale' ,
+                close (ins , field) {
+                    if (ins instanceof G.ajax) {
+                        ins.native('abort');
+                    }
+                    this.pending[field] = false;
+                } ,
             });
         } ,
     };

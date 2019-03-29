@@ -5,61 +5,102 @@ export default {
             form: {
                 username: '',
                 password: '',
+                verify_code: '' ,
+                verify_code_key: '' ,
             },
             error: {},
-            code: '' ,
+            verifyCode: '' ,
+            ins: {} ,
+            ajax: {} ,
+            pending: {
+                login: false
+            }
         };
     } ,
     created () {
-
+        // 获取验证码
+        this.getVerifyCode();
+    } ,
+    mounted () {
+        let self = this;
+        this.ins.loading = new Loading(this.$refs.loading.$el , {
+            status: 'hide' ,
+            type: 'line-scale' ,
+            close (ins , key) {
+                // 终端请求
+                if (ins instanceof G.ajax) {
+                    ins.native('abort');
+                }
+                self.pending[key] = false;
+            }
+        });
     } ,
     methods: {
         check () {
             return {
                 status: true ,
-                msg: ''
+                field: '' ,
+                value: ''
             };
         } ,
 
+        // 获取验证码
+        getVerifyCode () {
+            miscApi.verifyCode((res , code) => {
+                if (code != 200) {
+                    this.error.code_verify = res;
+                    vScroll('code_verify');
+                    return ;
+                }
+                // 清空错误信息
+                this.error.code_verify = '';
+                this.verifyCode = res.img;
+                this.form.verify_code_key = res.key;
+            });
+        } ,
+
         submit () {
-            if (this.isRunning) {
-                return Prompt.alert('请求中...请耐心等待');
+            if (this.pending.login) {
+                return this.$info('请求中...请耐心等待');
             }
             let filter = this.check();
             if (!filter.status) {
-                return Prompt.alert(filter.msg);
+                this.error[filter.field] = filter.value;
+                return ;
             }
-            this.isRunning = true;
-            topContext.ins.loading.show();
+            this.pending.login = true;
+            this.ins.loading.show();
             new Promise((resolve , reject) => {
-                userApi.login(this.form , (res , code) => {
+                this.ajax.login = userApi.login(this.form , (res , code) => {
                     resolve();
-                    if (res.code == 400) {
-                        this.error = res.data;
+                    if (code != 200) {
+                        if (code == 400) {
+                            this.error = res;
+                            return ;
+                        }
+                        if (code == 450) {
+                            this.$error(res);
+                            return ;
+                        }
+                        this.$unknow();
                         return ;
                     }
-                    if (res.code == 450) {
-                        this.$Message.error(res.data);
-                        return ;
-                    }
-                    let data = res.data;
                     // 更新验证码
-                    G.s.set('token' , data);
+                    G.s.json('token' , res);
                     // 获取用户权限范围
                     this.$router.push({name: 'home'});
                     // 跳转到首页
                 } , (...args) => {
                     resolve();
                 });
+                this.ins.loading.setArgs(this.ajax.login , 'login');
             }).then(() => {
-                this.isRunning = false;
-                topContext.ins.loading.hide();
+                this.pending.login = false;
+                this.ins.loading.hide();
             });
         } ,
     } ,
     watch: {
-        remember (nV , oV) {
-            this.form.remember = nV ? 'y' : 'n';
-        }
+
     }
 }

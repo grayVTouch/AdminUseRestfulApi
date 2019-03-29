@@ -1,5 +1,7 @@
 <template>
     <div class="container" ref="container">
+        <!-- 加载 -->
+        <v-loading ref="loading"></v-loading>
         <!-- left -->
         <div class="left">
             <div class="top">

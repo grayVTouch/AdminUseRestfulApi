@@ -14,20 +14,54 @@ Vue.config.devtools = true;
  * *********************
  */
 
+let refreshToken = (resolve) => {
+    if (!G.s.exists('token')) {
+        // 没有登录信息，退出登录
+        forceLogout();
+        return ;
+    }
+    let token = G.s.json('token');
+    userApi.refreshToken({
+        refresh_token: token.refresh_token
+    } , (res , code) => {
+        if (code != 200) {
+            forceLogout();
+            return ;
+        }
+        // 更新 token
+        G.s.json('token' , res);
+        resolve();
+    });
+};
+
 G.ajax.opened = function(){
+    if (!isLogin()) {
+        return true;
+    }
+    let token = G.s.json('token');
     // 设置 Authorization 头部
-    this.native('setRequestHeader' , 'Authorization' , G.s.get('token'));
+    this.native('setRequestHeader' , 'Authorization' , token.token);
     return true;
 };
 
 // 拦截 网络/登录状态 变更
-G.ajax.responded = function(res , status){
-    if (status == 0) {
-        Prompt.alert('出现异常情况，请稍后再试');
+G.ajax.responded = function(res , code){
+    if (code == 0) {
+        console.log('请求被终止，可能是网络断开导致，也可能是用户手动终止！请稍后再试');
         return false;
     }
-    if (res.code == 401) {
-        logout();
+    if (code == 401) {
+        // token 认证失败，刷新 token
+        new Promise((resolve , reject) => {
+            refreshToken(resolve);
+        }).then(() => {
+            // 更新成功便重新开始之前用户的请求
+            this.restart();
+        });
+        return false;
+    }
+    if (code == 500) {
+        $error('服务器发生内部错误，请稍后再试');
         return false;
     }
     return true;

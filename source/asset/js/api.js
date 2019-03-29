@@ -9,6 +9,7 @@ import articleApi from '../../api/article.js';
 import announcementApi from '../../api/announcement.js';
 import appApi from '../../api/app.js';
 import imageApi from '../../api/image.js';
+import miscApi from '../../api/misc.js';
 
 Object.assign(window , {
     userApi ,
@@ -16,5 +17,6 @@ Object.assign(window , {
     articleApi ,
     announcementApi ,
     appApi ,
-    imageApi
+    imageApi ,
+    miscApi ,
 });

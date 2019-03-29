@@ -6,7 +6,7 @@
     top: 0;
     overflow-x: hidden;
     overflow-y: auto;
-    background-image: url('/static/image/background.jpg');
+    background-image: url('http://www.grayvtouch.top/static/image/background.jpg');
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
@@ -130,16 +130,16 @@
 }
 
 /*验证码*/
-.container .form > .btm > .code .top .left {
+.container .form > .btm > .verify_code .top .left {
     margin-right: 145px;
 }
 
-.container .form > .btm > .code .top .right {
+.container .form > .btm > .verify_code .top .right {
     width: 145px;
     line-height: 50px;
 }
 
-.container .form > .btm > .code .top .right .image {
+.container .form > .btm > .verify_code .top .right .image {
     width: auto;
     height: auto;
 }

@@ -11,12 +11,29 @@ export default {
             field: {
                 id: 'id' ,
                 p_id: 'p_id'
+            } ,
+            ajax: {
+                logout: null
+            } ,
+            pending: {
+                logout: false ,
             }
         };
     } ,
     mounted () {
         this.dom.functions = G(this.$refs['functions-for-user']);
         this.dom.con = G(this.$refs.con);
+
+        this.ins.loading = new Loading(this.$refs.loading.$el , {
+            status: 'hide' ,
+            type: 'line-scale' ,
+            close (ins , field) {
+                if (ins instanceof G.ajax) {
+                    ins.native('abort');
+                }
+                this.pending[field] = false;
+            } ,
+        });
 
         this.initialize();
     } ,
@@ -280,19 +297,17 @@ export default {
 
         // 获取用户相关数据
         info (resolve , reject) {
-            userApi.info((res) => {
-                if (res.code != 200) {
-                    this.$Message.error(res.data);
+            userApi.info((res , code) => {
+                if (code != 200) {
+                    this.$error(res);
                     reject();
                     return ;
                 }
-                let data = res.data;
                 // 针对 data 做一些数据过滤
-                const menu = this.getMenuData(data.user.role.priv);
+                const menu = this.getMenuData(res.user.role.priv);
                 this.$store.commit('menu' , menu);
-                this.$store.commit('priv' , data.user.role.priv);
-                this.$store.commit('route' , data.route);
-
+                this.$store.commit('priv' , res.user.role.priv);
+                this.$store.commit('route' , res.route);
                 resolve();
             });
         } ,
@@ -331,6 +346,27 @@ export default {
         curPos (id) {
             let route = this.$store.state.route;
             return G.t.parents(id , route , this.field , true , false);
+        } ,
+
+        // 注销
+        logout () {
+            if (this.pending.logout) {
+                $info('请求中...请耐心等待');
+                return ;
+            }
+            this.pending.logout = true;
+            this.ins.loading.show();
+            this.ajax.logout = userApi.logout((res , code) => {
+                this.pending.logout = false;
+                this.ins.loading.hide();
+                if (code != 200) {
+                    this.$error(res);
+                    return ;
+                }
+                // 退出登录
+                this.forceLogout();
+            });
+            this.ins.loading.setArgs(this.ins.loading , 'logout');
         } ,
     } ,
 }
