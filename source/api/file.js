@@ -1,10 +1,9 @@
-const logining = `${topContext.api}admin/logining`;
-const info = `${topContext.api}admin/info`;
-const refreshToken = `${topContext.api}oauth/token`;
+const image = `${topContext.api}admin/file/image`;
+const file = `${topContext.api}admin/file/file`;
 
 export default {
     // 用户登录
-    login (data , success , error) {
+    image (data , success , error) {
         return G.ajax({
             url: logining ,
             method: 'post' ,
@@ -15,11 +14,10 @@ export default {
     } ,
 
     // 注销
-    logout (data , success , error) {
+    logout (success , error) {
         return G.ajax({
             url: logining ,
             method: 'delete' ,
-            data ,
             success ,
             error
         });

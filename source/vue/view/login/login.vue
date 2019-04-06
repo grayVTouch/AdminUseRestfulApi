@@ -39,7 +39,7 @@
                 -->
 
                 <div class="line btns">
-                    <button type="submit" class="btn-2">提交</button>
+                    <button type="submit" class="run-button run-button-submit">提交</button>
                 </div>
             </div>
         </form>

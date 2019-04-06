@@ -4,18 +4,21 @@
 
 .container > * {
     height: 100%;
-    min-height: 500px;
+    min-height: 600px;
 }
 
 .container > .left {
     position: fixed;
     left: 0;
     top: 0;
-    width: 200px;
     background-color: #464b56;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
     z-index: 2;
+}
+
+.container > .left > .in {
+    width: 200px;
 }
 
 .container > .right {
@@ -67,17 +70,17 @@
  * 文档左边: top
  * ****************
  */
-.container > .left > .top {
+.container > .left > .in > .top {
 
 }
 
-.container > .left > .top .logo {
+.container > .left > .in > .top .logo {
     height: 50px;
     line-height: 50px;
     background-color: #525865;
 }
 
-.container > .left > .top .logo .left {
+.container > .left > .in > .top .logo .left {
     position: absolute;
     left: 0;
     top: 0;
@@ -86,29 +89,30 @@
     text-align: center;
 }
 
-.container > .left > .top .logo .left .image {
+.container > .left > .in > .top .logo .left .image {
     width: 28px;
     height: 28px;
 }
 
-.container > .left > .top .logo .right {
+.container > .left > .in > .top .logo .right {
     font-weight: bold;
     font-size: 16px;
     color: white;
     margin-left: 50px;
 }
 
-.container > .left > .top .user {
+.container > .left > .in > .top .user {
+    overflow: hidden;
     margin-bottom: 15px;
 }
 
-.container > .left > .top .user .top {
+.container > .left > .in > .top .user .top {
     height: 150px;
     text-align: center;
     line-height: 150px;
 }
 
-.container > .left > .top .user .top .image-container {
+.container > .left > .in > .top .user .top .image-container {
     width: 120px;
     height: 120px;
     overflow: hidden;
@@ -117,13 +121,13 @@
     vertical-align: middle;
 }
 
-.container > .left > .top .user .top .image-container .image {
+.container > .left > .in > .top .user .top .image-container .image {
     width: 100%;
     min-height: 100%;
     vertical-align: top;
 }
 
-.container > .left > .top .user .btm {
+.container > .left > .in > .top .user .btm {
     font-size: 14px;
     color: white;
     text-align: center;
@@ -134,29 +138,29 @@
  * 滑块
  * *************
  */
-.container > .left > .top .block {
+.container > .left > .in > .top .block {
     background-color:#3e4448;
 }
 
-.container > .left > .top .block:hover .horizontal .in .line , .container > .left > .top .block:hover .vertical .in .line {
+.container > .left > .in > .top .block:hover .horizontal .in .line , .container > .left > .in > .top .block:hover .vertical .in .line {
     background-color:#e7e7e7;
 }
 
-.container > .left > .top .block>*  {
+.container > .left > .in > .top .block>*  {
     height:30px;
     position:relative;
     cursor:pointer;
 }
 
-.container > .left > .top .block .horizontal {
+.container > .left > .in > .top .block .horizontal {
 
 }
 
-.container > .left > .top .block .vertical {
+.container > .left > .in > .top .block .vertical {
 
 }
 
-.container > .left > .top .block .horizontal .in , .container > .left > .top .block .vertical .in {
+.container > .left > .in > .top .block .horizontal .in , .container > .left > .in > .top .block .vertical .in {
     position:absolute;
     left:50%;
     top:50%;
@@ -167,13 +171,13 @@
     -otransform:translate3d(-50% , -50% , 0px);
 }
 
-.container > .left > .top .block .horizontal .in:after {
+.container > .left > .in > .top .block .horizontal .in:after {
     display:block;
     content:'';
     clear:both;
 }
 
-.container > .left > .top .block .horizontal .in .line {
+.container > .left > .in > .top .block .horizontal .in .line {
     float:left;
     width: 3px;
     height: 12px;
@@ -186,20 +190,20 @@
     background-color: #868686;
 }
 
-.container > .left > .top .block .horizontal .in .line:nth-last-of-type(1) {
+.container > .left > .in > .top .block .horizontal .in .line:nth-last-of-type(1) {
     margin-right: 0;
 }
 
-.container > .left > .top .block .vertical {
+.container > .left > .in > .top .block .vertical {
     width:50px;
     margin: 0;
 }
 
-.container > .left > .top .block .vertical .in {
+.container > .left > .in > .top .block .vertical .in {
 
 }
 
-.container > .left > .top .block .vertical .in .line {
+.container > .left > .in > .top .block .vertical .in .line {
     background-color: #868686;
     margin-bottom:3px;
     width:12px;
@@ -211,7 +215,7 @@
     -o-transition:all 0.3s linear;
 }
 
-.container > .left > .top .block .vertical .in .line:nth-last-of-type(1) {
+.container > .left > .in > .top .block .vertical .in .line:nth-last-of-type(1) {
     margin-bottom: 0;
 }
 
@@ -220,8 +224,10 @@
  * 文档左边: mid
  * ****************
  */
-.container > .left > .mid {
-
+.container > .left > .in > .mid {
+    overflow: hidden;
+    overflow-y: auto;
+    min-height: 300px;
 }
 
 /*
@@ -229,7 +235,7 @@
  * 文档左边: btm
  * ****************
  */
-.container > .left > .btm {
+.container > .left > .in > .btm {
     position: absolute;
     left: 0;
     bottom: 0;
@@ -442,8 +448,7 @@
  * **************************
  */
 .container > .right > .btm > .dynamic {
-    padding: 20px;
-    padding-top: 0;
+
 }
 
 .container > .right > .btm > .dynamic > .in {

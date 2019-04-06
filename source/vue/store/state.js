@@ -9,4 +9,10 @@ export default {
     route: [] ,
     // 菜单数据
     menu: [] ,
+    // 用户
+    user: {} ,
+    os: {
+        developer: {} ,
+        system: {} ,
+    } ,
 };

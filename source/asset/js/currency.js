@@ -10,11 +10,6 @@ function isLogin () {
     return G.s.exists('token');
 }
 
-// 获取对象的首个属性
-function firstKey (obj){
-    return Object.keys(obj)[0];
-}
-
 // 指定 id 滚动到指定位置
 // 注意这是特意为当前项目而写的！
 // 如果换过一个容器元素就会出现错误！
@@ -22,7 +17,9 @@ function firstKey (obj){
 function vScroll (id , fn) {
     let dom = G('#' + id);
     let container = G(window);
-    let val = dom.getWindowOffsetVal('top');
+    let val = dom.getDocOffsetVal('top');
+    let extra = 80 + 5 + 60;
+    val -= extra;
     G.scrollTo(topContext.animateDuration, 'y', 0, val, fn);
 }
 
@@ -59,7 +56,6 @@ function $unknow() {
 Object.assign(window , {
     forceLogout ,
     isLogin ,
-    firstKey ,
     vScroll ,
     getClass ,
     $success ,

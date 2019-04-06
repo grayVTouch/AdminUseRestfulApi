@@ -2,12 +2,16 @@ import menu from '../../public/menu.vue';
 import moduleNav from '../../public/moduleNav.vue';
 import routeForVue from '../../../router/routes.js';
 
+let once = null;
+
 export default {
     name: "v-index" ,
     data () {
         return {
             dom: {} ,
-            ins: {} ,
+            ins: {
+                loading: null ,
+            } ,
             field: {
                 id: 'id' ,
                 p_id: 'p_id'
@@ -17,46 +21,111 @@ export default {
             } ,
             pending: {
                 logout: false ,
-            }
+            } ,
+            render: '' ,
+            value: {
+                leftMinW: 50 ,
+            } ,
         };
     } ,
+    mixins: [
+        mixins.loading ,
+    ] ,
     mounted () {
-        this.dom.functions = G(this.$refs['functions-for-user']);
-        this.dom.con = G(this.$refs.con);
-
-        this.ins.loading = new Loading(this.$refs.loading.$el , {
-            status: 'hide' ,
-            type: 'line-scale' ,
-            close (ins , field) {
-                if (ins instanceof G.ajax) {
-                    ins.native('abort');
-                }
-                this.pending[field] = false;
-            } ,
-        });
-
-        this.initialize();
+        this.initDom();
+        this.initValue();
+        this.initInstance();
+        this.getData();
     } ,
     components: {
         'v-menu': menu
     } ,
     methods: {
+        initDom () {
+            this.dom.functions = G(this.$refs['functions-for-user']);
+            this.dom.con = G(this.$refs.con);
+            this.dom.left = G(this.$refs.left);
+            this.dom.right = G(this.$refs.right);
+            this.dom.leftTop = G(this.$refs['left-top']);
+            this.dom.leftMid = G(this.$refs['infinite-classification']);
+            this.dom.leftBtm = G(this.$refs['left-btm']);
+            this.dom.multipleTab = G(this.$refs['multiple-tab']);
+            this.dom.win = G(window);
+            this.dom.horizontal = G(this.$refs.horizontal);
+            this.dom.vertical = G(this.$refs.vertical);
+            this.dom.user = G(this.$refs.user);
+            this.dom.block = G(this.$refs.block);
+            this.dom.rightTop = G(this.$refs['right-top']);
+        } ,
+
+        initInstance () {
+
+        } ,
+
         // 初始化
-        initialize () {
+        getData () {
             new Promise((resolve , reject) => {
                 this.info(resolve , reject);
             }).then(() => {
                 this.$nextTick(() => {
-                    // DOM 渲染完成
-                    this.initTab();
-                    this.initMenu();
+                    this.initialize();
                 });
+            });
+        } ,
+
+        initialize () {
+            this.initValue();
+            // DOM 渲染完成
+            this.initTab();
+            this.initMenu();
+            this.initStyle();
+            this.initSlidebar();
+        } ,
+
+        initValue () {
+            this.value.leftW = this.dom.left.width('border-box');
+            this.value.userW = this.dom.user.width('border-box');
+            this.value.userH = this.dom.user.height('border-box');
+        } ,
+
+        // 初始化
+        initStyle () {
+            /**
+             * ********************
+             * 左边：菜单
+             * ********************
+             */
+            this.initLeftMidH();
+            this.dom.win.on('resize' , this.initLeftMidH.bind(this) , true , false);
+        } ,
+
+        initSlidebar () {
+            let slidebar = G.s.get('slidebar');
+            if (G.isNull(slidebar)) {
+                return ;
+            }
+            if (slidebar == 'horizontal') {
+                return ;
+            }
+            this.vertical();
+        } ,
+
+        initLeftMidH () {
+            let leftH = this.dom.left.height('content-box');
+            let leftTopH = this.dom.leftTop.height('border-box');
+            let leftBtmH = this.dom.leftBtm.height('border-box');
+            let leftMidMinH = parseInt(this.dom.leftMid.css('minHeight'));
+            let leftMidH = leftH -leftTopH - leftBtmH;
+            leftMidH = Math.max(leftMidMinH , leftMidH);
+            this.dom.leftMid.css({
+                height: leftMidH + 'px'
             });
         } ,
 
         initTab () {
             let self = this;
-            this.ins.tab = new MultipleTab(this.$refs['multiple-tab'] , {
+            this.ins.tab = new MultipleTab(this.dom.multipleTab.get(0) , {
+                time: 200 ,
                 ico: '/plugin/MultipleTab/image/icon.ico' ,
                 created (id) {
                     // 路由参数
@@ -74,13 +143,13 @@ export default {
         } ,
         initMenu () {
             const self = this;
-            this.ins.ic = new InfiniteClassification(this.$refs['infinite-classification'] , {
+            this.ins.ic = new InfiniteClassification(this.dom.leftMid.get(0) , {
                 // 菜单展开动画过渡时间
                 time: 300 ,
                 // 次要的图标类型，new || number || switch
                 icon: 'switch' ,
                 // 标识符，展开的项；1. 在元素里面设置 data-focus='y' +
-                id: [7] ,
+                id: [3] ,
                 // 初始状态，spread || shrink
                 status: 'shrink' ,
                 // 层级视觉显示效果
@@ -103,6 +172,62 @@ export default {
                     });
                 }
             });
+        } ,
+
+        horizontal () {
+            this.dom.user.removeClass('hide');
+            // 滑块切换
+            this.dom.horizontal.highlight('hide' , this.dom.block.children().get() , true);
+            // 菜单展开
+            this.dom.left.animate({
+                width: this.value.leftW + 'px' ,
+            } , () => {
+                this.ins.ic.icon('none');
+            });
+            // 用户展开
+            this.dom.user.animate({
+                width: this.value.userW + 'px' ,
+                height: this.value.userH + 'px'
+            } , () => {
+                this.initLeftMidH();
+            });
+            // 内容收缩
+            this.dom.right.animate({
+                paddingLeft: this.value.leftW + 'px' ,
+            });
+            // 右侧顶部导航栏收缩
+            this.dom.rightTop.animate({
+                paddingLeft: this.value.leftW + 'px' ,
+            });
+            G.s.set('slidebar' , 'horizontal');
+        } ,
+
+        vertical () {
+            // 滑块切换
+            this.dom.vertical.highlight('hide' , this.dom.block.children().get() , true);
+            // 菜单展开
+            this.dom.left.animate({
+                width: this.value.leftMinW + 'px' ,
+            } , () => {
+                this.ins.ic.icon('text');
+            });
+            // 用户收缩
+            this.dom.user.animate({
+                width: '0px' ,
+                height: '0px'
+            } , () => {
+                this.dom.user.addClass('hide');
+                this.initLeftMidH();
+            });
+            // 内容收缩
+            this.dom.right.animate({
+                paddingLeft: this.value.leftMinW + 'px' ,
+            });
+            // 右侧顶部导航栏收缩
+            this.dom.rightTop.animate({
+                paddingLeft: this.value.leftMinW + 'px' ,
+            });
+            G.s.set('slidebar' , 'vertical');
         } ,
         // 显示
         showUserCtrl () {
@@ -169,12 +294,12 @@ export default {
         } ,
 
         // 组件
-        component (route , param , id) {
+        component (route) {
             for (let i = 0; i < routeForVue.length; ++i)
             {
                 let v = routeForVue[i];
                 if (v.path == route) {
-                    return this.newComponent(v.component , route , param , id);
+                    return v.component;
                 }
             }
             throw new Error('未找到 route：' + route + '对应的路由');
@@ -182,8 +307,14 @@ export default {
 
         // 挂载组建
         mount (container , id , route , param) {
-            let compClass = this.component(route , param , id);
-            new compClass().$mount(container);
+            let component = this.component(route);
+            component().then((module) => {
+                // 注意 module.default ！
+                // 具体原因请查看 import 语法解释
+                let component = this.newComponent(module.default , route , param , id);
+
+                new component().$mount(container);
+            });
         } ,
 
         // 生成标签名称
@@ -201,11 +332,11 @@ export default {
             // 重新渲染元素内容
             let container = this.item(id);
                 container = G(container);
+            let div = document.createElement('div');
+            this.mount(div , id , route , param);
             // 清空内容
             container.html('');
-            let div = document.createElement('div');
             container.append(div);
-            this.mount(div , id , route , param);
         } ,
 
         // 新开一个标签页
@@ -224,46 +355,53 @@ export default {
             let self = this;
             route = this.findRouteByRoute(route);
             let topRoute = this.topRoute(route.id);
-            return Vue.extend({
-                ...component ,
-                // 混入一些组件通用方法
-                mixins: [
-                    {
-                        data () {
-                            return {
-                                // 当前组件的标识符
-                                id ,
-                                param ,
-                                route ,
-                                topRoute ,
-                                pos: []
-                            };
-                        } ,
-                        created () {
-                            this.pos = self.curPos(route.id);
-                        } ,
-                        methods: {
-                            // 也跳跳转方法
-                            location (route , param , type = '_self') {
-                                // 目前仅有两种类型
-                                // _self 页面内重载
-                                // _blank 打开新的标签页
-                                let typeRange = ['_self' , '_blank'];
-                                if (type == '_self') {
-                                    return self.reRender(id , route , param);
-                                }
-                                if (type == '_blank') {
-                                    // 新开一个标签页
-                                    return self.createTab(route , param);
-                                }
-                                // ...预留的内容
-                            } ,
-                        } ,
-                        components: {
-                            'module-nav': moduleNav
+            component.mixins = component.mixins ? component.mixins : [];
+            let mixins = {
+                data () {
+                    return {
+                        // 当前组件的标识符
+                        // 子组件不允许设置这些值！
+                        id ,
+                        param ,
+                        route ,
+                        topRoute ,
+                        pos: []
+                    };
+                } ,
+                created () {
+                    this.pos = self.curPos(route.id);
+                } ,
+                methods: {
+                    // 也跳跳转方法
+                    location (route , param , type = '_self') {
+                        // 目前仅有两种类型
+                        // _self 页面内重载
+                        // _blank 打开新的标签页
+                        let typeRange = ['_self' , '_blank'];
+                        if (type == '_self') {
+                            return self.reRender(id , route , param);
                         }
-                    }
-                ] ,
+                        if (type == '_blank') {
+                            // 新开一个标签页
+                            return self.createTab(route , param);
+                        }
+                        // ...预留的内容
+                    } ,
+                } ,
+                components: {
+                    'module-nav': moduleNav
+                }
+            };
+            component.mixins.push(mixins);
+            return Vue.extend({
+                // 这个地方必须要使用此种方式！！
+                // 重新拷一份该组件
+                // 否则，按照官网的描述
+                // 异步组件结果会被缓存
+                // 也就是该组件仅会实例化一次！
+                // 之后便不再重复实例化
+                // 复用之前的实例
+                ...component
             });
         } ,
 
@@ -297,7 +435,7 @@ export default {
 
         // 获取用户相关数据
         info (resolve , reject) {
-            userApi.info((res , code) => {
+            adminApi.info((res , code) => {
                 if (code != 200) {
                     this.$error(res);
                     reject();
@@ -306,8 +444,10 @@ export default {
                 // 针对 data 做一些数据过滤
                 const menu = this.getMenuData(res.user.role.priv);
                 this.$store.commit('menu' , menu);
+                this.$store.commit('user' , res.user);
                 this.$store.commit('priv' , res.user.role.priv);
                 this.$store.commit('route' , res.route);
+                this.$store.commit('os' , res.os);
                 resolve();
             });
         } ,
@@ -356,7 +496,7 @@ export default {
             }
             this.pending.logout = true;
             this.ins.loading.show();
-            this.ajax.logout = userApi.logout((res , code) => {
+            this.ajax.logout = adminApi.logout((res , code) => {
                 this.pending.logout = false;
                 this.ins.loading.hide();
                 if (code != 200) {

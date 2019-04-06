@@ -1,7 +1,10 @@
 <template>
     <div class="item" :data-id="data.id">
         <div class="function">
-            <div class="icon"><img :src="data.s_ico" class="image"></div>
+            <div class="icon">
+                <span class="text" v-if="data.floor > 1"></span>
+                <img :src="data.s_ico" class="image">
+            </div>
             <div class="explain">
                 <div class="in">
                     <div class="ico"><img src="/plugin/InfiniteClassification/image/default/ring.png" class="image"></div>

@@ -12,6 +12,7 @@ export default {
             verifyCode: '' ,
             ins: {} ,
             ajax: {} ,
+            api: adminApi ,
             pending: {
                 login: false
             }
@@ -21,19 +22,11 @@ export default {
         // 获取验证码
         this.getVerifyCode();
     } ,
+    mixins: [
+        mixins.loading ,
+    ] ,
     mounted () {
-        let self = this;
-        this.ins.loading = new Loading(this.$refs.loading.$el , {
-            status: 'hide' ,
-            type: 'line-scale' ,
-            close (ins , key) {
-                // 终端请求
-                if (ins instanceof G.ajax) {
-                    ins.native('abort');
-                }
-                self.pending[key] = false;
-            }
-        });
+
     } ,
     methods: {
         check () {
@@ -71,18 +64,16 @@ export default {
             this.pending.login = true;
             this.ins.loading.show();
             new Promise((resolve , reject) => {
-                this.ajax.login = userApi.login(this.form , (res , code) => {
+                this.ajax.login = this.api.login(this.form , (res , code) => {
                     resolve();
                     if (code != 200) {
-                        if (code == 400) {
-                            this.error = res;
-                            return ;
-                        }
-                        if (code == 450) {
+                        // 重新获取验证码
+                        this.getVerifyCode();
+                        if (code == 460) {
                             this.$error(res);
                             return ;
                         }
-                        this.$unknow();
+                        this.error = G.createObject(this.error , res);
                         return ;
                     }
                     // 更新验证码

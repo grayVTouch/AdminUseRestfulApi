@@ -21,7 +21,7 @@ let refreshToken = (resolve) => {
         return ;
     }
     let token = G.s.json('token');
-    userApi.refreshToken({
+    adminApi.refreshToken({
         refresh_token: token.refresh_token
     } , (res , code) => {
         if (code != 200) {
@@ -44,6 +44,7 @@ G.ajax.opened = function(){
     return true;
 };
 
+let count = 0;
 // 拦截 网络/登录状态 变更
 G.ajax.responded = function(res , code){
     if (code == 0) {
@@ -53,6 +54,10 @@ G.ajax.responded = function(res , code){
     if (code == 401) {
         // token 认证失败，刷新 token
         new Promise((resolve , reject) => {
+            if (++count > 10) {
+                console.log('刷新 token 后，尝试请求用户之前被拦截的请求次数过多！程序问题！请检查');
+                return ;
+            }
             refreshToken(resolve);
         }).then(() => {
             // 更新成功便重新开始之前用户的请求
@@ -60,9 +65,14 @@ G.ajax.responded = function(res , code){
         });
         return false;
     }
+    if (code == 403) {
+        $error(res);
+        return false;
+    }
     if (code == 500) {
         $error('服务器发生内部错误，请稍后再试');
         return false;
     }
+
     return true;
 };

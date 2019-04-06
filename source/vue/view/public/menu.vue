@@ -17,7 +17,7 @@
             };
         } ,
         created () {
-            console.log(this.$store.state.menu);
+
         } ,
         mounted () {
         } ,

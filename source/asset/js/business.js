@@ -24,6 +24,11 @@ Object.assign(window , {
                 news: '发现-焦点轮播图' ,
                 app: '发现-应用-焦点轮播图'
             }
-        }
+        } ,
+        // 请求方法
+        route: {
+            method: ['GET' , 'POST' , 'PUT' , 'PATCH' , 'DELETE' , 'NONE'] ,
+            type: ['view' , 'api'] ,
+        } ,
     }
 });

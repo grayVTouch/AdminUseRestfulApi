@@ -5,6 +5,11 @@
  */
 .module-container {
     position: relative;
+    padding-top: 0;
+}
+
+.module-container > * {
+    padding: 0 20px;
 }
 
 /**
@@ -13,14 +18,10 @@
  * ******************
  */
 .module-container > .module-content {
+    padding-bottom: 20px;
+}
+
+.module-container > .module-content > .in {
     padding: 20px;
     background-color: white;
 }
-
-.module-container > .module-content > * {
-    margin-bottom: 12px;
-}
-
-/*.module-container > .module-content > *:nth-last-of-type(1) {*/
-/*margin-bottom: 0;*/
-/*}*/

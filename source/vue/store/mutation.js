@@ -11,4 +11,12 @@ export default {
     menu (state , data) {
         state.menu = data;
     } ,
+
+    user (state , data) {
+        state.user = data;
+    } ,
+
+    os (state , data) {
+        state.os = data;
+    } ,
 };
