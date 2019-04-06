@@ -1,10 +1,14 @@
 <template>
     <div class="item" :data-id="data.id">
         <div class="function">
+<<<<<<< HEAD
             <div class="icon">
                 <span class="text" v-if="data.floor > 1"></span>
                 <img :src="data.s_ico" class="image">
             </div>
+=======
+            <div class="icon"><img :src="data.s_ico" class="image"></div>
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
             <div class="explain">
                 <div class="in">
                     <div class="ico"><img src="/plugin/InfiniteClassification/image/default/ring.png" class="image"></div>

@@ -1,4 +1,5 @@
 export default {
+<<<<<<< HEAD
     loading: {
         mounted () {
             let self = this;
@@ -28,6 +29,24 @@ export default {
             } ,
             api: null ,
             dom: null ,
+=======
+    list: {
+        data: {
+            data () {
+                return {
+                    page: {
+                        total: 0 ,
+                        page: 0 ,
+                        per_page: 0 ,
+                    } ,
+                    form: {
+                        page: 1
+                    } ,
+                    api: null ,
+                    dom: null
+                };
+            } ,
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
         } ,
         page: {
             methods: {
@@ -48,6 +67,7 @@ export default {
 
                 // 重置
                 reset () {
+<<<<<<< HEAD
                     this.form = {};
                     this.submit();
                 } ,
@@ -58,11 +78,14 @@ export default {
                     let items = tar.parent().children();
                     tar.highlight('focus' , items.get());
                     this.form.order = order;
+=======
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
                     this.submit();
                 } ,
             }
         } ,
         get: {
+<<<<<<< HEAD
             // 获取数据，层级数据
             floor: {
                 methods: {
@@ -108,10 +131,39 @@ export default {
                 // 删除选中项
                 del (idList , fn) {
                     if (this.pending.del) {
+=======
+            methods: {
+                getData () {
+                    this.ins.loading.show();
+                    // 用户列表
+                    this.api.list(this.form , (res) => {
+                        this.ins.loading.hide();
+                        if (res.code != 200) {
+                            this.$msg(res.data);
+                        }
+                        let data = res.data;
+                        this.data = data.data;
+                        delete data.data;
+                        this.page = data;
+                    });
+                } ,
+            }
+        } ,
+
+        del: {
+            mounted () {
+                this.dom.tbody = G(this.$refs.tbody);
+            } ,
+            methods: {
+                // 删除选中项
+                del () {
+                    if (this.isRunning) {
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
                         layer.alert('请求中...请耐心等待');
                         return ;
                     }
                     this.ins.loading.show();
+<<<<<<< HEAD
                     this.ajax.del = this.api.del({
                         id_list: G.jsonEncode(idList)
                     } , (res , code) => {
@@ -128,10 +180,26 @@ export default {
                         }
                     });
                     this.ins.loading.setArgs(this.ajax.del , 'del');
+=======
+                    this.api.del({
+                        id_list: G.jsonEncode(this.idList)
+                    } , (res) => {
+                        this.isRunning = false;
+                        this.ins.loading.hide();
+                        if (res.code != 200) {
+                            this.$error(res.data);
+                            return ;
+                        }
+                        this.idList = [];
+                        this.$success('删除成功');
+                        this.getData();
+                    });
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
                 } ,
 
                 // 删除选中项
                 delTarget (id) {
+<<<<<<< HEAD
                     new Promise((resolve , reject) => {
                         // 提示
                         this.$info('你确定要删除吗？' , {
@@ -165,13 +233,23 @@ export default {
                     } , (index) => {
                         layer.close(index);
                     });
+=======
+                    this.addId(id);
+                    this.del();
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
                 } ,
 
                 // 选择事件
                 selectEvent (e) {
                     let tar = G(e.currentTarget);
                     let id = tar.data('id');
+<<<<<<< HEAD
                     if (tar.hasClass('focus')) {
+=======
+                    let cbox = G('.c-box' , tar.get(0));
+                    let checked = cbox.native('checked');
+                    if (checked) {
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
                         this.unselectedLine(id);
                     } else {
                         this.selectedLine(id);
@@ -244,6 +322,7 @@ export default {
                 } ,
             }
         } ,
+<<<<<<< HEAD
     } ,
 
     // form 表单
@@ -268,4 +347,7 @@ export default {
             }
         } ,
     } ,
+=======
+    }
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
 };

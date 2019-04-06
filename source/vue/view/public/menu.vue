@@ -17,7 +17,11 @@
             };
         } ,
         created () {
+<<<<<<< HEAD
 
+=======
+            console.log(this.$store.state.menu);
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
         } ,
         mounted () {
         } ,

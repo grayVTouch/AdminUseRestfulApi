@@ -11,6 +11,7 @@ export default {
     menu (state , data) {
         state.menu = data;
     } ,
+<<<<<<< HEAD
 
     user (state , data) {
         state.user = data;
@@ -19,4 +20,6 @@ export default {
     os (state , data) {
         state.os = data;
     } ,
+=======
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
 };

@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
     <div class="module-container">
         <module-nav :topRoute="topRoute" :pos="pos"></module-nav>
         <div class="module-content">
@@ -108,3 +109,19 @@
 <style scoped src="../public/css/public.css"></style>
 <style scoped src="../public/css/list.css"></style>
 <style scoped src="./css/list.css"></style>
+=======
+    <div>
+        <h1>欢迎来到角色列表</h1>
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "v-list"
+    }
+</script>
+
+<style scoped>
+
+</style>
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0

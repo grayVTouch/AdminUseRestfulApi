@@ -14,6 +14,7 @@ Vue.config.devtools = true;
  * *********************
  */
 
+<<<<<<< HEAD
 let refreshToken = (resolve) => {
     if (!G.s.exists('token')) {
         // 没有登录信息，退出登录
@@ -74,5 +75,23 @@ G.ajax.responded = function(res , code){
         return false;
     }
 
+=======
+G.ajax.opened = function(){
+    // 设置 Authorization 头部
+    this.native('setRequestHeader' , 'Authorization' , G.s.get('token'));
+    return true;
+};
+
+// 拦截 网络/登录状态 变更
+G.ajax.responded = function(res , status){
+    if (status == 0) {
+        Prompt.alert('出现异常情况，请稍后再试');
+        return false;
+    }
+    if (res.code == 401) {
+        logout();
+        return false;
+    }
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
     return true;
 };

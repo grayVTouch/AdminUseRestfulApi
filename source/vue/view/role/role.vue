@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
     <div class="module-container">
         <module-nav :topRoute="topRoute" :pos="pos"></module-nav>
         <div class="module-content">
@@ -42,3 +43,17 @@
 <style src="../public/css/global.css"></style>
 <style scoped src="../public/css/public.css"></style>
 <style scoped src="./css/role.css"></style>
+=======
+    <div></div>
+</template>
+
+<script>
+    export default {
+        name: "v-role"
+    }
+</script>
+
+<style scoped>
+
+</style>
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0

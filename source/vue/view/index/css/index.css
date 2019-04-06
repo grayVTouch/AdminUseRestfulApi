@@ -4,13 +4,18 @@
 
 .container > * {
     height: 100%;
+<<<<<<< HEAD
     min-height: 600px;
+=======
+    min-height: 500px;
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
 }
 
 .container > .left {
     position: fixed;
     left: 0;
     top: 0;
+<<<<<<< HEAD
     background-color: #464b56;
     overflow-x: hidden;
     overflow-y: hidden;
@@ -21,6 +26,15 @@
     width: 200px;
 }
 
+=======
+    width: 200px;
+    background-color: #464b56;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 2;
+}
+
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
 .container > .right {
     position: absolute;
     left: 0;
@@ -70,17 +84,29 @@
  * 文档左边: top
  * ****************
  */
+<<<<<<< HEAD
 .container > .left > .in > .top {
 
 }
 
 .container > .left > .in > .top .logo {
+=======
+.container > .left > .top {
+
+}
+
+.container > .left > .top .logo {
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
     height: 50px;
     line-height: 50px;
     background-color: #525865;
 }
 
+<<<<<<< HEAD
 .container > .left > .in > .top .logo .left {
+=======
+.container > .left > .top .logo .left {
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
     position: absolute;
     left: 0;
     top: 0;
@@ -89,30 +115,50 @@
     text-align: center;
 }
 
+<<<<<<< HEAD
 .container > .left > .in > .top .logo .left .image {
+=======
+.container > .left > .top .logo .left .image {
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
     width: 28px;
     height: 28px;
 }
 
+<<<<<<< HEAD
 .container > .left > .in > .top .logo .right {
+=======
+.container > .left > .top .logo .right {
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
     font-weight: bold;
     font-size: 16px;
     color: white;
     margin-left: 50px;
 }
 
+<<<<<<< HEAD
 .container > .left > .in > .top .user {
     overflow: hidden;
     margin-bottom: 15px;
 }
 
 .container > .left > .in > .top .user .top {
+=======
+.container > .left > .top .user {
+    margin-bottom: 15px;
+}
+
+.container > .left > .top .user .top {
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
     height: 150px;
     text-align: center;
     line-height: 150px;
 }
 
+<<<<<<< HEAD
 .container > .left > .in > .top .user .top .image-container {
+=======
+.container > .left > .top .user .top .image-container {
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
     width: 120px;
     height: 120px;
     overflow: hidden;
@@ -121,13 +167,21 @@
     vertical-align: middle;
 }
 
+<<<<<<< HEAD
 .container > .left > .in > .top .user .top .image-container .image {
+=======
+.container > .left > .top .user .top .image-container .image {
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
     width: 100%;
     min-height: 100%;
     vertical-align: top;
 }
 
+<<<<<<< HEAD
 .container > .left > .in > .top .user .btm {
+=======
+.container > .left > .top .user .btm {
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
     font-size: 14px;
     color: white;
     text-align: center;
@@ -138,6 +192,7 @@
  * 滑块
  * *************
  */
+<<<<<<< HEAD
 .container > .left > .in > .top .block {
     background-color:#3e4448;
 }
@@ -147,11 +202,23 @@
 }
 
 .container > .left > .in > .top .block>*  {
+=======
+.container > .left > .top .block {
+    background-color:#3e4448;
+}
+
+.container > .left > .top .block:hover .horizontal .in .line , .container > .left > .top .block:hover .vertical .in .line {
+    background-color:#e7e7e7;
+}
+
+.container > .left > .top .block>*  {
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
     height:30px;
     position:relative;
     cursor:pointer;
 }
 
+<<<<<<< HEAD
 .container > .left > .in > .top .block .horizontal {
 
 }
@@ -161,6 +228,17 @@
 }
 
 .container > .left > .in > .top .block .horizontal .in , .container > .left > .in > .top .block .vertical .in {
+=======
+.container > .left > .top .block .horizontal {
+
+}
+
+.container > .left > .top .block .vertical {
+
+}
+
+.container > .left > .top .block .horizontal .in , .container > .left > .top .block .vertical .in {
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
     position:absolute;
     left:50%;
     top:50%;
@@ -171,13 +249,21 @@
     -otransform:translate3d(-50% , -50% , 0px);
 }
 
+<<<<<<< HEAD
 .container > .left > .in > .top .block .horizontal .in:after {
+=======
+.container > .left > .top .block .horizontal .in:after {
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
     display:block;
     content:'';
     clear:both;
 }
 
+<<<<<<< HEAD
 .container > .left > .in > .top .block .horizontal .in .line {
+=======
+.container > .left > .top .block .horizontal .in .line {
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
     float:left;
     width: 3px;
     height: 12px;
@@ -190,20 +276,36 @@
     background-color: #868686;
 }
 
+<<<<<<< HEAD
 .container > .left > .in > .top .block .horizontal .in .line:nth-last-of-type(1) {
     margin-right: 0;
 }
 
 .container > .left > .in > .top .block .vertical {
+=======
+.container > .left > .top .block .horizontal .in .line:nth-last-of-type(1) {
+    margin-right: 0;
+}
+
+.container > .left > .top .block .vertical {
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
     width:50px;
     margin: 0;
 }
 
+<<<<<<< HEAD
 .container > .left > .in > .top .block .vertical .in {
 
 }
 
 .container > .left > .in > .top .block .vertical .in .line {
+=======
+.container > .left > .top .block .vertical .in {
+
+}
+
+.container > .left > .top .block .vertical .in .line {
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
     background-color: #868686;
     margin-bottom:3px;
     width:12px;
@@ -215,7 +317,11 @@
     -o-transition:all 0.3s linear;
 }
 
+<<<<<<< HEAD
 .container > .left > .in > .top .block .vertical .in .line:nth-last-of-type(1) {
+=======
+.container > .left > .top .block .vertical .in .line:nth-last-of-type(1) {
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
     margin-bottom: 0;
 }
 
@@ -224,10 +330,15 @@
  * 文档左边: mid
  * ****************
  */
+<<<<<<< HEAD
 .container > .left > .in > .mid {
     overflow: hidden;
     overflow-y: auto;
     min-height: 300px;
+=======
+.container > .left > .mid {
+
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
 }
 
 /*
@@ -235,7 +346,11 @@
  * 文档左边: btm
  * ****************
  */
+<<<<<<< HEAD
 .container > .left > .in > .btm {
+=======
+.container > .left > .btm {
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
     position: absolute;
     left: 0;
     bottom: 0;
@@ -448,7 +563,12 @@
  * **************************
  */
 .container > .right > .btm > .dynamic {
+<<<<<<< HEAD
 
+=======
+    padding: 20px;
+    padding-top: 0;
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
 }
 
 .container > .right > .btm > .dynamic > .in {

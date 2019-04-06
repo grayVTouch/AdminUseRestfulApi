@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
     <div class="module-container">
         <module-nav :topRoute="topRoute" :pos="pos"></module-nav>
         <div class="module-content">
@@ -123,3 +124,19 @@
 <style scoped src="../public/css/public.css"></style>
 <style scoped src="../public/css/list.css"></style>
 <style scoped src="./css/list.css"></style>
+=======
+    <div>
+        欢迎来到路由列表
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "list"
+    }
+</script>
+
+<style scoped>
+
+</style>
+>>>>>>> 2312275b72dca303976d703d8a85fe347188bdd0
