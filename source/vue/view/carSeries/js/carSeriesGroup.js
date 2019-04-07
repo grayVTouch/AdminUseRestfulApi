@@ -1,8 +1,11 @@
 export default {
-    name: "v-route" ,
+    name: "v-brand" ,
     data () {
         return {
             form: {
+                name: '' ,
+                letter: '' ,
+                hot: 'n' ,
                 weight: 0 ,
             } ,
             error: {} ,
@@ -13,19 +16,14 @@ export default {
             dom: {} ,
             ins: {
                 loading: null ,
-                small: null ,
-                big: null ,
             },
             pending: {
                 submit: null ,
             } ,
             data: {} ,
             callback: {
-                image: null
             } ,
-            api: roleApi ,
-            routes: [] ,
-            value: {} ,
+            api: carSeriesGroupApi ,
         };
     } ,
     created () {
@@ -37,8 +35,10 @@ export default {
         this.getData();
     } ,
     mixins: [
+        mixins.state ,
         mixins.loading ,
         mixins.form.get ,
+        mixins.form.confirm ,
     ] ,
     methods: {
         initDom () {
@@ -60,6 +60,7 @@ export default {
 
         submit () {
             new Promise((resolve) => {
+                // 上传基本数据
                 if (this.pending.submit) {
                     this.$info('请求中...请耐心等待');
                     return ;
@@ -72,43 +73,26 @@ export default {
                 }
                 this.pending.submit = true;
                 this.ins.loading.show();
-                let self = this;
-
-                // 上传基本数据
                 this.ajax.submit = this.api[this.param.mode](this.form , (res , code) => {
+                    this.error = {};
                     if (code != 200) {
-                        this.pending.submit = false;
-                        this.ins.loading.hide();
+                        this.initialState('loading' , 'submit' , 'submit');
                         if (code == 400) {
                             this.error = res;
                             vScroll(G.firstKey(res));
                             return ;
                         }
-                        if (code == 460) {
-                            // 特殊错误
-                            this.$error(res);
-                            return ;
-                        }
+                        this.$error(res);
+                        return ;
                     }
                     this.form.id = res;
                     resolve();
                 });
                 this.ins.loading.setArgs(this.ajax.submit , 'submit');
             }).then(() => {
-                // 提示成功
-                this.$success('操作成功' , {
-                    btn: ['继续' + (this.param.mode == 'edit' ? '编辑' : '添加') , '角色列表'] ,
-                    btn1 (index) {
-                        layer.close(index);
-                    } ,
-                    btn2 () {
-                        self.location('/role/list' , null , '_self');
-                    }
-                });
+                this.confirm('车系分组' , '/carSeriesGroup/list');
             }).finally(() => {
-                // 更新状态
-                this.pending.submit = false;
-                this.ins.loading.hide();
+                this.initialState('loading' , 'submit' , 'submit');
             });
         } ,
     }

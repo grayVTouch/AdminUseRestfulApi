@@ -4,8 +4,8 @@ export default {
         return {
             form: {
                 id: '' ,
-                p_id: '' ,
-                name: ''
+                name: '' ,
+                order: '' ,
             } ,
             ins: {
                 loading: null ,
@@ -17,11 +17,14 @@ export default {
                 list: null ,
             } ,
             dom: {} ,
-            api: routeApi ,
+            api: brandApi ,
             data: [] ,
             // 待删除的记录 id 列表
             idList: [] ,
-            all: [] ,
+            page: {
+                page: 1 ,
+                per_page: 20
+            }
 
         };
     } ,
@@ -32,11 +35,13 @@ export default {
         // 加载
         mixins.loading ,
         // 获取层级数据
-        mixins.list.get.floor ,
+        mixins.list.get.normal ,
         // 数据过滤
         mixins.list.filter ,
         // 删除数据
         mixins.list.del ,
+        // 分页数据
+        mixins.list.page ,
     ] ,
 
     created () {
@@ -50,8 +55,6 @@ export default {
         this.initInstance();
         // 获取当前数据
         this.getData();
-        // 获取所有路由
-        this.getAll();
     } ,
 
 
@@ -64,23 +67,6 @@ export default {
         // 初始化必须的实例
         initInstance () {
 
-        } ,
-
-        // 路由分类
-        getAll () {
-            this.ins.loading.show();
-            this.ajax.list = this.api.list(null , (res , code) => {
-                this.ins.loading.hide();
-                if (code != 200) {
-                    this.$error(res);
-                    return ;
-                }
-                // res.unshift(0);
-                // res.unshift(this.all.length);
-                // this.all.splice.apply(this.all , res);
-                this.all = res;
-            });
-            this.ins.loading.setArgs(this.ajax.list);
         } ,
     } ,
 
