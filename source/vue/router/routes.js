@@ -23,6 +23,19 @@ const listForCarType = () => import('../view/carType/list.vue');
 const thingForCarType = () => import('../view/carType/thing.vue');
 const listForCarModel = () => import('../view/carModel/list.vue');
 const thingForCarModel = () => import('../view/carModel/thing.vue');
+const listForDectionModule = () => import('../view/detectionModule/list.vue');
+const thingForDectionModule = () => import('../view/detectionModule/thing.vue');
+const listForDectionGroup = () => import('../view/DetectionGroup/list.vue');
+const thingForDectionGroup = () => import('../view/DetectionGroup/thing.vue');
+const listForDectionPos = () => import('../view/DetectionPos/list.vue');
+const thingForDectionPos = () => import('../view/DetectionPos/thing.vue');
+const listForDectionItem = () => import('../view/DetectionItem/list.vue');
+const thingForDectionItem = () => import('../view/DetectionItem/thing.vue');
+const listForService = () => import('../view/service/list.vue');
+const thingForService = () => import('../view/service/thing.vue');
+const listForCar = () => import('../view/car/list.vue');
+const thingForCar = () => import('../view/car/thing.vue');
+const reportForCar = () => import('../view/car/report.vue');
 
 export default [
     {
@@ -218,5 +231,117 @@ export default [
     {
         path: '/carModel/add' ,
         component: thingForCarModel
+    } ,
+
+    /**
+     * ***********************
+     * 质量检测-模块
+     * ***********************
+     */
+    {
+        path: '/detectionModule/list' ,
+        component: listForDectionModule
+    } ,
+    {
+        path: '/detectionModule/edit' ,
+        component: thingForDectionModule
+    } ,
+    {
+        path: '/detectionModule/add' ,
+        component: thingForDectionModule
+    } ,
+
+    /**
+     * ***********************
+     * 质量检测-位置分组
+     * ***********************
+     */
+    {
+        path: '/detectionGroup/list' ,
+        component: listForDectionGroup
+    } ,
+    {
+        path: '/detectionGroup/edit' ,
+        component: thingForDectionGroup
+    } ,
+    {
+        path: '/detectionGroup/add' ,
+        component: thingForDectionGroup
+    } ,
+
+    /**
+     * ***********************
+     * 质量检测-位置分组
+     * ***********************
+     */
+    {
+        path: '/detectionPos/list' ,
+        component: listForDectionPos
+    } ,
+    {
+        path: '/detectionPos/edit' ,
+        component: thingForDectionPos
+    } ,
+    {
+        path: '/detectionPos/add' ,
+        component: thingForDectionPos
+    } ,
+
+    /**
+     * ***********************
+     * 质量检测-检测项
+     * ***********************
+     */
+    {
+        path: '/detectionItem/list' ,
+        component: listForDectionItem
+    } ,
+    {
+        path: '/detectionItem/edit' ,
+        component: thingForDectionItem
+    } ,
+    {
+        path: '/detectionItem/add' ,
+        component: thingForDectionItem
+    } ,
+
+    /**
+     * ***********************
+     * 车辆服务
+     * ***********************
+     */
+    {
+        path: '/service/list' ,
+        component: listForService
+    } ,
+    {
+        path: '/service/edit' ,
+        component: thingForService
+    } ,
+    {
+        path: '/service/add' ,
+        component: thingForService
+    } ,
+
+    /**
+     * ***********************
+     * 车辆管理
+     * ***********************
+     */
+    {
+        path: '/car/list' ,
+        component: listForCar
+    } ,
+    {
+        path: '/car/edit' ,
+        component: thingForCar
+    } ,
+    {
+        path: '/car/add' ,
+        component: thingForCar
+    } ,
+    {
+        path: '/car/report' ,
+        component: reportForCar
     } ,
 ];

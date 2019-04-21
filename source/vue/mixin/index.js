@@ -13,6 +13,7 @@ export default {
         $tip ,
         $unknow ,
         firstLetter ,
+        determine ,
         // 通知
         notice (type , title , desc = '') {
             this.$Notice[type]({
@@ -34,6 +35,9 @@ export default {
 
         eNotice (title , desc = '') {
             this.notice('error' , title , desc);
+        } ,
+        toLink (url) {
+            window.open(url , '_blank');
         } ,
     } ,
     components: {

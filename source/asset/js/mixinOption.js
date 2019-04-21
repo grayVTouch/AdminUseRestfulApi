@@ -24,10 +24,22 @@ export default {
                     this.ajax[ajax].native('abort');
                 }
                 // 终止请求状态
-                this.pending[pending] = false;
+                if (G.isString(pending)) {
+                    this.pending[pending] = false;
+                }
                 // 中断加载层
                 if (this.ins[loading] instanceof Loading) {
                     this.ins[loading].hide();
+                }
+            } ,
+
+            // 请求状态
+            pendingState (loading , pending) {
+                if (this.ins[loading] instanceof Loading) {
+                    this.ins[loading].show();
+                }
+                if (G.isString(pending)) {
+                    this.pending[pending] = true;
                 }
             } ,
         }
@@ -137,7 +149,7 @@ export default {
                         return ;
                     }
                     this.ins.loading.show();
-                    this.ajax.del = this.api.del({
+                    this.ajax.del = this.api[G.isString(this.delAction) ? this.delAction : 'del']({
                         id_list: G.jsonEncode(idList)
                     } , (res , code) => {
                         this.pending.del = false;
@@ -177,10 +189,18 @@ export default {
                 // 删除选中项
                 delSelected () {
                     new Promise((resolve , reject) => {
-                        this.$info('你确定要删除吗？' , {
-                            btn: ['确定' , '取消'] ,
-                            btn1: resolve,
-                            btn2: reject
+                        if (this.idList.length < 1) {
+                            this.$info('请选择要删除的项');
+                            return ;
+                        }
+                        resolve();
+                    }).then(() => {
+                        return new Promise((resolve , reject) => {
+                            this.$info('你确定要删除吗？' , {
+                                btn: ['确定' , '取消'] ,
+                                btn1: resolve,
+                                btn2: reject
+                            });
                         });
                     }).then((index) => {
                         layer.close(index);
@@ -277,6 +297,9 @@ export default {
             methods: {
                 getData (callback) {
                     if (this.param.mode != 'edit') {
+                        if (G.isFunction(callback)) {
+                            callback();
+                        }
                         return ;
                     }
                     this.ins.loading.show();
@@ -317,13 +340,28 @@ export default {
             methods: {
                 confirm (name , route) {
                     let self = this;
+                    let action = '';
+                    switch (this.param.mode)
+                    {
+                        case 'edit':
+                            action = '编辑';
+                            break;
+                        case 'add':
+                            action = '添加';
+                            break;
+                        case 'report':
+                            action = '编辑';
+                            break;
+                        default:
+                            action = '操作';
+                    }
                     // 提示成功
                     this.$success('操作成功' , {
-                        btn: ['继续' + (this.param.mode == 'edit' ? '编辑' : '添加') , name] ,
+                        btn: ['继续' + action , name] ,
                         btn1 (index) {
                             layer.close(index);
                             if (self.param.mode == 'edit') {
-                                self.reload();
+                                // self.reload();
                             }
                         } ,
                         btn2 () {
@@ -331,6 +369,38 @@ export default {
                         }
                     });
                 }
+            }
+        } ,
+        menuSwitch: {
+            methods: {
+                initMenuSwitch () {
+                    var self = this;
+                    // 菜单切换
+                    this.ins.menuSwitch = new MenuSwitch(this.$refs['menu-switch'].$el , {
+                        // 默认展示的界面
+                        id: this.menu ,
+                        // 菜单展示风格
+                        type: this.type ,
+                        // 项点击后回调
+                        click (id) {
+
+                        } ,
+                        // 切换后回调
+                        switch (id) {
+                            self.switchMenu(id);
+                        }
+                    });
+                } ,
+                switchMenu (id) {
+                    this.dom.optionSet.each((dom) => {
+                        dom = G(dom);
+                        if (dom.data('id') == id) {
+                            dom.removeClass('hide');
+                        } else {
+                            dom.addClass('hide');
+                        }
+                    });
+                } ,
             }
         } ,
     } ,
