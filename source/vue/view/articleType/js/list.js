@@ -83,12 +83,12 @@ export default {
                     return ;
                 }
                 this.pendingState('loading' , 'del');
-                this.api[G.isString(this.delApi) ? this.delApi : 'del']({
+                this.ajax.del = this.api[G.isString(this.delApi) ? this.delApi : 'del']({
                     id_list: G.jsonEncode(idList)
-                } , (res) => {
-                    this.initialState('loading' , 'del');
-                    if (res.code != 200) {
-                        this.$error(res.data);
+                } , (res , code) => {
+                    this.initialState('loading' , 'del' , 'del');
+                    if (code != 200) {
+                        this.$error(res);
                         return ;
                     }
                     this.$success('删除成功');
@@ -97,6 +97,7 @@ export default {
                         fn();
                     }
                 });
+                this.ins.loading.setArgs(this.ajax.del , 'del');
             };
             this.$info('如果删除，将会连同子类一起删除，你确定删除吗？' , {
                 btn: ['确定' , '取消'] ,

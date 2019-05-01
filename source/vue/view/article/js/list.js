@@ -62,7 +62,6 @@ export default {
         this.getData();
     } ,
 
-
     methods: {
         // 初始化 dom
         initDom () {

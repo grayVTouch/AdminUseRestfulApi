@@ -27,7 +27,7 @@ export default {
         return G.ajax({
             url: main ,
             data ,
-            method: 'patch' ,
+            method: 'put' ,
             success ,
             error
         });

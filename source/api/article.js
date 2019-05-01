@@ -28,7 +28,7 @@ export default {
         return G.ajax({
             url: main ,
             data ,
-            method: 'patch' ,
+            method: 'put' ,
             success ,
             error
         });
@@ -61,7 +61,7 @@ export default {
         return G.ajax({
             url: image ,
             data ,
-            method: 'put' ,
+            method: 'patch' ,
             success ,
             error
         });

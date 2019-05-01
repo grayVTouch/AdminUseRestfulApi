@@ -5,6 +5,8 @@ export default {
             form: {
                 article_type_id: '' ,
                 hidden: 'n' ,
+                is_link: 'n' ,
+                weight: 0 ,
             } ,
             field: {
                 id: 'id' ,

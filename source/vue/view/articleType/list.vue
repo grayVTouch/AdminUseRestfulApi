@@ -20,7 +20,7 @@
                                 <div class="field"></div>
                                 <div class="value">
                                     <button type="submit" class="run-button run-button-blue">提交</button>
-                                    <button type="reset" class="run-button run-button-blue">重置</button>
+                                    <button type="reset" class="run-button run-button-yellow">重置</button>
                                 </div>
                             </div>
                         </div>

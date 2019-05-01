@@ -74,7 +74,7 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr id="content" :class="getClass(error.content)">
+                        <tr id="content" :class="getClass(error.content)" v-if="form.is_link == 'n'">
                             <td>内容</td>
                             <td>
                                 <div ref="editor" class="wang-editor"></div>
@@ -112,6 +112,28 @@
                                 <span class="necessary"></span>
                                 <span class="tip">默认：否</span>
                                 <span class="msg">{{ error.weight }}</span>
+                            </td>
+                        </tr>
+                        <tr id="is_link">
+                            <td>是否链接</td>
+                            <td>
+                                <radio-group v-model="form.is_link">
+                                    <radio v-for="(v,k) in $store.state.business.bool_str" :label="k" :key="k">
+                                        <span>{{ v }}</span>
+                                    </radio>
+                                </radio-group>
+                                <span class="necessary"></span>
+                                <span class="tip">默认：否，如果选择：是，那么文章内容将无需填写（会自动隐藏）</span>
+                                <span class="msg">{{ error.is_link }}</span>
+                            </td>
+                        </tr>
+                        <tr id="link" :class="getClass(error.link)">
+                            <td>链接</td>
+                            <td>
+                                <input type="text" class="form-text" v-model="form.link">
+                                <span class="necessary"></span>
+                                <span class="tip">链接地址，例如：https://www.baidu.com/</span>
+                                <span class="msg">{{ error.link }}</span>
                             </td>
                         </tr>
                         <tr>
