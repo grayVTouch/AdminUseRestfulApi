@@ -3,14 +3,7 @@ export default {
     data () {
         return {
             form: {
-                article_type_id: '' ,
-                hidden: 'n' ,
-                is_link: 'n' ,
                 weight: 0 ,
-            } ,
-            field: {
-                id: 'id' ,
-                p_id: 'p_id'
             } ,
             // 错误消息
             error: {} ,
@@ -22,12 +15,12 @@ export default {
             pending: {
                 submit: false ,
             } ,
-            api: articleApi ,
+            api: showImageApi ,
             callback: {
                 image: null
             } ,
             image: {} ,
-            type: [] ,
+            platform: [] ,
         };
     } ,
     mixins: [
@@ -42,7 +35,7 @@ export default {
     mounted () {
         this.initDom();
         this.initInstance();
-        this.getData();
+        this.initialize();
     } ,
     methods: {
         initDom () {
@@ -50,46 +43,25 @@ export default {
         } ,
 
         initInstance () {
-            this.ins.editor = new wangEditor(this.$refs.editor);
-            // this.ins.editor.customConfig.uploadImgShowBase64 = true;
-            this.ins.editor.customConfig.uploadImgServer = topContext.imageApiForwangEditor;
-            this.ins.editor.customConfig.uploadFileName = 'image[]';
-            this.ins.editor.create();
+
         } ,
 
-        getData () {
-            new Promise((resolve) => {
+        initialize () {
+            return new Promise((resolve , reject) => {
                 this.pendingState('loading');
-                // 获取文章分类
-                articleTypeApi.list({} , (res , code) => {
+                platformApi.all((res , code) => {
                     resolve();
                     if (code != 200) {
                         this.eNotice(res);
-                        return;
-                    }
-                    this.type = res;
-                });
-            }).then(() => {
-                // 获取数据
-                return new Promise((resolve) => {
-                    // 检查时编辑
-                    if (this.param.mode == 'edit') {
-                        // 获取当前正在编辑的文章分类
-                        this.api.detail(this.param.id , (res , code) => {
-                            resolve();
-                            if (code != 200) {
-                                this.eNotice(res);
-                                return ;
-                            }
-                            let data = res;
-                            let content = data.content ? data.content.content : '';
-                            delete data.content;
-                            this.form = data;
-                            this.ins.editor.txt.html(content);
-                        });
                         return ;
                     }
-                    resolve();
+                    this.platform = res;
+                });
+            }).then(() => {
+                return new Promise((resolve) => {
+                    this.getData(() => {
+                        resolve();
+                    });
                 });
             }).finally(() => {
                 this.initialState('loading');
@@ -105,16 +77,16 @@ export default {
         } ,
 
         submit () {
-            return new Promise((resolve) => {
+            new Promise((resolve) => {
                 // 上传基本数据
                 if (this.pending.submit) {
                     this.$info('请求中...请耐心等待');
                     return ;
                 }
                 this.pendingState('loading' , 'submit');
-                // 设置内容
-                this.form.content = this.ins.editor.txt.html();
+                let self = this;
                 this.ajax.submit = this.api[this.param.mode](this.form , (res , code) => {
+                    this.error = {};
                     if (code != 200) {
                         this.initialState('loading' , 'submit' , 'submit');
                         if (code == 400) {
@@ -143,7 +115,7 @@ export default {
                             resolve(false);
                             return ;
                         }
-                        res = res;
+                        
                         this.image = res;
                         resolve(true);
                     };
@@ -158,7 +130,7 @@ export default {
                     }
                     this.api.image({
                         id: this.form.id ,
-                        image: this.image.url
+                        ...this.image
                     } , (res , code) => {
                         if (code != 200) {
                             this.eNotice(res);
@@ -167,7 +139,7 @@ export default {
                     });
                 });
             }).then(() => {
-                this.confirm('文章列表' , '/article/list');
+                this.confirm('图片列表' , '/showImage/list');
             }).finally(() => {
                 this.initialState('loading' , 'submit' , 'submit');
             });

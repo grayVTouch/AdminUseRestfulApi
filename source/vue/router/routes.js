@@ -42,6 +42,9 @@ const thingForArticleType = () => import('../view/articleType/thing.vue');
 const listForArticle = () => import('../view/article/list.vue');
 const thingForArticle = () => import('../view/article/thing.vue');
 
+const listForShowImage  = () => import('../view/showImage/list.vue');
+const thingForShowImage = () => import('../view/showImage/thing.vue');
+
 export default [
     {
         name: 'home' ,
@@ -383,5 +386,23 @@ export default [
     {
         path: '/article/add' ,
         component: thingForArticle
+    } ,
+
+    /**
+     * ***********************
+     * 图片
+     * ***********************
+     */
+    {
+        path: '/showImage/list' ,
+        component: listForShowImage
+    } ,
+    {
+        path: '/showImage/edit' ,
+        component: thingForShowImage
+    } ,
+    {
+        path: '/showImage/add' ,
+        component: thingForShowImage
     } ,
 ];

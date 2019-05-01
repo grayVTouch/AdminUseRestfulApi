@@ -1,73 +1,56 @@
-const list = `${topContext.api}Image/list`;
-const detail = `${topContext.api}Image/detail`;
-const edit = `${topContext.api}Image/edit`;
-const add = `${topContext.api}Image/add`;
-const del = `${topContext.api}Image/del`;
-const saveImage = `${topContext.api}Image/saveImage`;
+const main = `${topContext.api}showImage/image`;
+const detail = `${topContext.api}showImage/image/?`;
 
 export default {
-    // 文章分类列表
     list (data , success , error) {
         return G.ajax({
-            url: list ,
+            url: main ,
             data ,
-            method: 'post' ,
+            method: 'get' ,
             success ,
             error
         });
     } ,
-
-    // 详情
-    detail (data , success , error) {
+    detail (id , success , error) {
         return G.ajax({
-            url: detail ,
-            data ,
-            method: 'post' ,
+            url: detail.replace('?' , id) ,
+            method: 'get' ,
             success ,
             error
         });
     } ,
-
-    // 修改
     edit (data , success , error) {
         return G.ajax({
-            url: edit ,
+            url: main ,
             data ,
-            method: 'post' ,
+            method: 'put' ,
             success ,
             error
         });
     } ,
-
-    // 添加
     add (data , success , error) {
         return G.ajax({
-            url: add ,
+            url: main ,
             data ,
             method: 'post' ,
             success ,
             error
         });
     } ,
-
-    // 删除
     del (data , success , error) {
         return G.ajax({
-            url: del ,
+            url: main ,
             data ,
-            method: 'post' ,
+            method: 'delete' ,
             success ,
             error
         });
     } ,
-
-
-    // 删除
-    saveImage (data , success , error) {
+    image (data , success , error) {
         return G.ajax({
-            url: saveImage ,
+            url: main ,
             data ,
-            method: 'post' ,
+            method: 'patch' ,
             success ,
             error
         });
