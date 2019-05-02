@@ -4,6 +4,7 @@
  * ***********************
  */
 import adminApi from '../../api/admin.js';
+import userApi from '../../api/user.js';
 import articleTypeApi from '../../api/articleType.js';
 import articleApi from '../../api/article.js';
 import showImageApi from '../../api/showImage.js';
@@ -24,6 +25,10 @@ import detectionItemApi from '../../api/detectionItem.js';
 import serviceApi from '../../api/service.js';
 import carApi from '../../api/car.js';
 import platformApi from '../../api/platform.js';
+import saleApplicationApi from '../../api/saleApplication.js';
+import recommendationApplicationApi from '../../api/recommendationApplication.js';
+import stagingBuyApplicationApi from '../../api/stagingBuyApplication.js';
+import reservationApi from '../../api/reservation.js';
 
 Object.assign(window , {
     adminApi ,
@@ -47,4 +52,9 @@ Object.assign(window , {
     serviceApi ,
     carApi ,
     platformApi ,
+    saleApplicationApi ,
+    recommendationApplicationApi ,
+    stagingBuyApplicationApi ,
+    reservationApi ,
+    userApi ,
 });
