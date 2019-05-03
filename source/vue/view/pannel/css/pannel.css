@@ -107,7 +107,7 @@
 .card .left {
     width: 50px;
     text-align: center;
-    background-color: #efefef;
+    background-color: #fbfbfb;
     border-right: 1px solid #ccc;
 }
 
@@ -176,7 +176,7 @@
 .card-for-total .left {
     width: 50px;
     text-align: center;
-    background-color: #efefef;
+    background-color: #fbfbfb;
     border-right: 1px solid #ccc;
 }
 
@@ -271,6 +271,10 @@
  图表盒子
  * *****************
  */
+.chart-box {
+
+}
+
 .chart-box .run-title {
 
 }
@@ -305,10 +309,28 @@
 
 }
 
-.chart-box .con {
+.chart-box > .con {
     border: 1px solid #ccc;
+    position: relative;
 }
 
 .chart-box .con .chart-container {
     height: 200px;
+}
+
+/**
+ * *****************
+ 系统信息
+ * *****************
+ */
+.system {
+}
+
+.system .table {
+    width: 100%;
+}
+
+.system .table tbody tr td {
+    height: 40px;
+    padding-left: 15px;
 }
